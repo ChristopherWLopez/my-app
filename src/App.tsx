@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { SyntheticEvent, useState } from 'react';
+import Hello from './Hello';
 import './App.css';
 
-function App() {
+export interface Props{
+  name: string,
+  enthusiasmLevel?: number;
+}
+
+interface State {
+  currentEnthusiasm: number;
+}
+
+
+
+const App: React.FC =(props)=> {
+
+  const [currentEnthusiasm, setCurrentEnthusiasm] = useState<number>(0);
+
+  onIncrement = (event: SyntheticEvent)=>{
+    console.log(event);
+    setCurrentEnthusiasm(-1);
+  }
+  
+  onDecrement = (event: SyntheticEvent)=>{
+    console.log(event);
+    setCurrentEnthusiasm(+1);
+  }
+  
+  const { name } = props;
+  if( currentEnthusiasm <= 0){
+    throw new Error(" You could be more enthusiatic");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='hello'>
+      <div className='greeting'>
+      Hello { name + getExclamationMarks(currentEnthusiasm)}
+      </div>
+      <button onClick={onDecrement}
     </div>
   );
-}
+};
 
 export default App;

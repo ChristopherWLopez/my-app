@@ -5,14 +5,11 @@ export interface Props{
     enthusiamLevel?: number;
 }
 
-interface State{
-    name: string;
-    enthusiasm?: number;
-}
 
  function Hello({ name, enthusiamLevel = 1}: Props) {
 
-    const [ currentEnthusiasm, setCurrentEnthusiasm] = useState(0);
+
+    const [ currentEnthusiasm, setCurrentEnthusiasm] = useState(enthusiamLevel);
 
     const  onIncrement=()=>{
         setCurrentEnthusiasm(currentEnthusiasm +1);
@@ -22,15 +19,19 @@ interface State{
         setCurrentEnthusiasm(currentEnthusiasm -1);
     }
 
-
+    
     if(enthusiamLevel <= 0){
         throw new Error("You could be alittle more enthustatic");
+    }
+
+    function getExclamationMarks(numChars: number){
+        return Array(numChars +1).join("!");
     }
   return (
     <>
     <div className='hello'>
       <div className='gretting'>
-        Hello {name + getExclamationMarks(enthusiamLevel)}
+        Hello {name  +  currentEnthusiasm + getExclamationMarks(enthusiamLevel)}
       </div>
       <button onClick={onIncrement}> + </button>
       <button onClick={onDecrement}> - </button>
@@ -43,7 +44,3 @@ interface State{
 export default Hello ;
 
 //helpers
-
-function getExclamationMarks(numChars: number){
-    return Array(numChars +1).join("!");
-}

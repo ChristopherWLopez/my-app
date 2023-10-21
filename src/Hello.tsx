@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState, useReducer } from 'react';
 
 export interface Props{
     name: string,
     enthusiamLevel?: number;
 }
 
+function updateEnthusiam(state: number, action:{ type: string }){
+    switch(action.type){
+     case 'increment':
+         return state + 1;
+     case 'decrement':
+         return state - 1;
+         default:
+             return state;
+    }
+ };
 
  function Hello({ name, enthusiamLevel = 1}: Props) {
 
 
-    const [ currentEnthusiasm, setCurrentEnthusiasm] = useState(enthusiamLevel);
-
-    const  onIncrement=()=>{
-        setCurrentEnthusiasm(currentEnthusiasm +1);
-    }
-
-    const  onDecrement=()=>{
-        setCurrentEnthusiasm(currentEnthusiasm -1);
-    }
+    const [ currentEnthusiasm, dispatch] = useReducer(updateEnthusiam, enthusiamLevel);
 
     
     if(enthusiamLevel <= 0){
@@ -27,20 +29,20 @@ export interface Props{
     function getExclamationMarks(numChars: number){
         return Array(numChars +1).join("!");
     }
+
+
+
   return (
-    <>
     <div className='hello'>
       <div className='gretting'>
         Hello {name  +  currentEnthusiasm + getExclamationMarks(enthusiamLevel)}
       </div>
-      <button onClick={onIncrement}> + </button>
-      <button onClick={onDecrement}> - </button>
+      <button onClick={()=> dispatch({ type: 'increment'})}> + </button>
+      <button onClick={()=> dispatch({ type: 'decrement'})}> - </button>
     </div>
-    </>
   );
 }
 
 
 export default Hello ;
 
-//helpers
